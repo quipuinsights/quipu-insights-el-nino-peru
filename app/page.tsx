@@ -475,6 +475,24 @@ export default function Home() {
         </div>
       </header>
 
+      <aside className="top-notice" aria-label="Información del dashboard">
+        <span>
+          Actualización automática <strong>cada 24 horas</strong>
+        </span>
+        <a href="#regiones">
+          Lectura territorial para departamentos y sus provincias
+        </a>
+        <a
+          className="top-instagram"
+          href="https://www.instagram.com/quipuinsights/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Encuéntranos en Instagram <strong>@quipuinsights</strong>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </aside>
+
       <section className="hero" id="inicio">
         <div className="hero-copy">
           <p className="eyebrow">Observatorio abierto · Perú primero</p>
@@ -748,11 +766,11 @@ export default function Home() {
         <div className="section-shell region-layout">
           <div className="region-copy">
             <p className="eyebrow">Sin mapa confuso</p>
-            <h2>Consulta por departamento</h2>
+            <h2>Consulta territorial por departamento</h2>
             <p>
-              El selector traduce el escenario nacional a una lectura regional.
-              No reemplaza un aviso meteorológico local ni atribuye cada evento
-              al ENSO.
+              El selector traduce el escenario nacional a una lectura regional
+              que orienta a las provincias del departamento. No reemplaza un
+              aviso meteorológico local ni atribuye cada evento al ENSO.
             </p>
             <label htmlFor="department">Departamento</label>
             <div className="select-wrap">
@@ -908,6 +926,17 @@ export default function Home() {
           Usa bases de datos oficiales y científicas de acceso abierto.
           <br />
           No sustituye alertas de ENFEN, SENAMHI ni autoridades de gestión del riesgo.
+          <span className="instagram-contact">
+            Encuéntranos en Instagram como{" "}
+            <a
+              href="https://www.instagram.com/quipuinsights/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              @quipuinsights
+            </a>
+            . Para cualquier consulta o duda, escríbenos por allí.
+          </span>
         </p>
         <a href="#inicio">Volver arriba ↑</a>
       </footer>
