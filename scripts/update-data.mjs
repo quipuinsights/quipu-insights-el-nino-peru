@@ -157,6 +157,24 @@ function buildHistory(weekly, oniAnnual) {
     });
 }
 
+function buildEventProfile(weekly, year) {
+  const monthly = new Map();
+  for (const point of weekly) {
+    if (point.year !== year) continue;
+    const month = point.date.getUTCMonth() + 1;
+    const values = monthly.get(month) ?? [];
+    values.push(point.nino12);
+    monthly.set(month, values);
+  }
+  return Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    return {
+      month,
+      value: average(monthly.get(month) ?? []),
+    };
+  });
+}
+
 function stripHtml(value) {
   return value
     .replace(/<[^>]*>/g, " ")
@@ -297,6 +315,12 @@ const payload = {
     weekly.length && oni.annual.size
       ? buildHistory(weekly, oni.annual)
       : FALLBACK.history,
+  eventProfiles: {
+    currentYear: now.getUTCFullYear(),
+    current: buildEventProfile(weekly, now.getUTCFullYear()),
+    nino1998: buildEventProfile(weekly, 1998),
+    nino2017: buildEventProfile(weekly, 2017),
+  },
   enfen,
 };
 
