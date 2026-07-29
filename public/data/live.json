@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-29T13:39:41.466Z",
+  "generatedAt": "2026-07-29T20:34:17.359Z",
   "nextRefreshAt": "2026-07-29T22:00:00.000Z",
-  "mode": "fallback",
+  "mode": "live",
   "indicators": {
     "nino12": {
-      "value": 2.7,
-      "date": "09 jul 2026"
+      "value": 3.8,
+      "date": "22 jul 2026"
     },
     "nino34": {
-      "value": 1.2,
-      "date": "09 jul 2026"
+      "value": 2.2,
+      "date": "22 jul 2026"
     },
     "oni": {
       "value": 0.98,
-      "date": "may 2026"
+      "date": "AMJ 2026"
     },
     "icen": {
       "value": null,
@@ -24,73 +24,546 @@
     {
       "year": 1950,
       "nino12": null,
-      "nino34": -1
+      "nino34": -0.86
+    },
+    {
+      "year": 1951,
+      "nino12": null,
+      "nino34": 0.43
+    },
+    {
+      "year": 1952,
+      "nino12": null,
+      "nino34": 0.17
+    },
+    {
+      "year": 1953,
+      "nino12": null,
+      "nino34": 0.71
+    },
+    {
+      "year": 1954,
+      "nino12": null,
+      "nino34": -0.4
+    },
+    {
+      "year": 1955,
+      "nino12": null,
+      "nino34": -0.95
+    },
+    {
+      "year": 1956,
+      "nino12": null,
+      "nino34": -0.58
     },
     {
       "year": 1957,
       "nino12": null,
-      "nino34": 0.8
+      "nino34": 0.96
+    },
+    {
+      "year": 1958,
+      "nino12": null,
+      "nino34": 0.83
+    },
+    {
+      "year": 1959,
+      "nino12": null,
+      "nino34": 0.14
+    },
+    {
+      "year": 1960,
+      "nino12": null,
+      "nino34": 0.07
+    },
+    {
+      "year": 1961,
+      "nino12": null,
+      "nino34": -0.02
+    },
+    {
+      "year": 1962,
+      "nino12": null,
+      "nino34": -0.21
+    },
+    {
+      "year": 1963,
+      "nino12": null,
+      "nino34": 0.66
+    },
+    {
+      "year": 1964,
+      "nino12": null,
+      "nino34": -0.34
     },
     {
       "year": 1965,
       "nino12": null,
-      "nino34": 1
+      "nino34": 0.9
+    },
+    {
+      "year": 1966,
+      "nino12": null,
+      "nino34": 0.38
+    },
+    {
+      "year": 1967,
+      "nino12": null,
+      "nino34": -0.31
+    },
+    {
+      "year": 1968,
+      "nino12": null,
+      "nino34": 0.13
+    },
+    {
+      "year": 1969,
+      "nino12": null,
+      "nino34": 0.75
+    },
+    {
+      "year": 1970,
+      "nino12": null,
+      "nino34": -0.32
+    },
+    {
+      "year": 1971,
+      "nino12": null,
+      "nino34": -0.94
     },
     {
       "year": 1972,
       "nino12": null,
-      "nino34": 0.9
+      "nino34": 0.93
+    },
+    {
+      "year": 1973,
+      "nino12": null,
+      "nino34": -0.62
+    },
+    {
+      "year": 1974,
+      "nino12": null,
+      "nino34": -0.89
+    },
+    {
+      "year": 1975,
+      "nino12": null,
+      "nino34": -1.05
+    },
+    {
+      "year": 1976,
+      "nino12": null,
+      "nino34": -0.05
+    },
+    {
+      "year": 1977,
+      "nino12": null,
+      "nino34": 0.51
+    },
+    {
+      "year": 1978,
+      "nino12": null,
+      "nino34": -0.1
+    },
+    {
+      "year": 1979,
+      "nino12": null,
+      "nino34": 0.25
+    },
+    {
+      "year": 1980,
+      "nino12": null,
+      "nino34": 0.25
     },
     {
       "year": 1981,
-      "nino12": -0.1,
-      "nino34": -0.2
+      "nino12": -0.43,
+      "nino34": -0.39
     },
     {
       "year": 1982,
-      "nino12": 1.3,
-      "nino34": 1
+      "nino12": 0.45,
+      "nino34": 0.77
+    },
+    {
+      "year": 1983,
+      "nino12": 2.15,
+      "nino34": 0.17
+    },
+    {
+      "year": 1984,
+      "nino12": -0.63,
+      "nino34": -0.78
+    },
+    {
+      "year": 1985,
+      "nino12": -1.22,
+      "nino34": -0.9
+    },
+    {
+      "year": 1986,
+      "nino12": -0.39,
+      "nino34": -0.07
+    },
+    {
+      "year": 1987,
+      "nino12": 0.79,
+      "nino34": 0.89
     },
     {
       "year": 1988,
-      "nino12": -0.6,
-      "nino34": -1.2
+      "nino12": -1.21,
+      "nino34": -1.14
+    },
+    {
+      "year": 1989,
+      "nino12": -0.59,
+      "nino34": -0.93
+    },
+    {
+      "year": 1990,
+      "nino12": -0.63,
+      "nino34": -0.01
+    },
+    {
+      "year": 1991,
+      "nino12": -0.04,
+      "nino34": 0.47
+    },
+    {
+      "year": 1992,
+      "nino12": 0.29,
+      "nino34": 0.53
+    },
+    {
+      "year": 1993,
+      "nino12": 0.2,
+      "nino34": 0.22
+    },
+    {
+      "year": 1994,
+      "nino12": -0.45,
+      "nino34": 0.33
+    },
+    {
+      "year": 1995,
+      "nino12": -0.54,
+      "nino34": -0.27
+    },
+    {
+      "year": 1996,
+      "nino12": -1.09,
+      "nino34": -0.53
     },
     {
       "year": 1997,
-      "nino12": 1.7,
-      "nino34": 1.4
+      "nino12": 2.2,
+      "nino34": 0.93
+    },
+    {
+      "year": 1998,
+      "nino12": 1.48,
+      "nino34": -0.3
+    },
+    {
+      "year": 1999,
+      "nino12": -0.8,
+      "nino34": -1.2
+    },
+    {
+      "year": 2000,
+      "nino12": -0.63,
+      "nino34": -0.95
+    },
+    {
+      "year": 2001,
+      "nino12": -0.47,
+      "nino34": -0.38
+    },
+    {
+      "year": 2002,
+      "nino12": 0.4,
+      "nino34": 0.53
+    },
+    {
+      "year": 2003,
+      "nino12": -0.2,
+      "nino34": 0.19
+    },
+    {
+      "year": 2004,
+      "nino12": -0.26,
+      "nino34": 0.32
+    },
+    {
+      "year": 2005,
+      "nino12": -0.67,
+      "nino34": 0.02
+    },
+    {
+      "year": 2006,
+      "nino12": 0.34,
+      "nino34": 0.09
     },
     {
       "year": 2007,
-      "nino12": -0.7,
-      "nino34": -0.8
+      "nino12": -0.85,
+      "nino34": -0.47
+    },
+    {
+      "year": 2008,
+      "nino12": 0.4,
+      "nino34": -0.69
+    },
+    {
+      "year": 2009,
+      "nino12": 0.34,
+      "nino34": 0.41
+    },
+    {
+      "year": 2010,
+      "nino12": -0.54,
+      "nino34": -0.34
+    },
+    {
+      "year": 2011,
+      "nino12": -0.29,
+      "nino34": -0.74
+    },
+    {
+      "year": 2012,
+      "nino12": 0.16,
+      "nino34": -0.02
+    },
+    {
+      "year": 2013,
+      "nino12": -0.85,
+      "nino34": -0.25
+    },
+    {
+      "year": 2014,
+      "nino12": 0.37,
+      "nino34": 0.12
     },
     {
       "year": 2015,
-      "nino12": 0.8,
-      "nino34": 1.3
+      "nino12": 1.45,
+      "nino34": 1.43
+    },
+    {
+      "year": 2016,
+      "nino12": 0.56,
+      "nino34": 0.35
     },
     {
       "year": 2017,
-      "nino12": 1.2,
-      "nino34": 0
+      "nino12": 0.05,
+      "nino34": -0.11
+    },
+    {
+      "year": 2018,
+      "nino12": -0.21,
+      "nino34": 0.07
+    },
+    {
+      "year": 2019,
+      "nino12": 0.01,
+      "nino34": 0.55
+    },
+    {
+      "year": 2020,
+      "nino12": -0.41,
+      "nino34": -0.3
+    },
+    {
+      "year": 2021,
+      "nino12": -0.46,
+      "nino34": -0.56
+    },
+    {
+      "year": 2022,
+      "nino12": -1.07,
+      "nino34": -0.86
     },
     {
       "year": 2023,
-      "nino12": 1.5,
-      "nino34": 1.1
+      "nino12": 2.06,
+      "nino34": 0.84
+    },
+    {
+      "year": 2024,
+      "nino12": -0.04,
+      "nino34": 0.38
+    },
+    {
+      "year": 2025,
+      "nino12": 0.23,
+      "nino34": -0.33
     },
     {
       "year": 2026,
-      "nino12": 2.7,
-      "nino34": 1.2
+      "nino12": 1.69,
+      "nino34": 0.6
     }
   ],
+  "eventProfiles": {
+    "currentYear": 2026,
+    "current": [
+      {
+        "month": 1,
+        "value": -0.15
+      },
+      {
+        "month": 2,
+        "value": 0.88
+      },
+      {
+        "month": 3,
+        "value": 1.27
+      },
+      {
+        "month": 4,
+        "value": 1.54
+      },
+      {
+        "month": 5,
+        "value": 1.95
+      },
+      {
+        "month": 6,
+        "value": 2.82
+      },
+      {
+        "month": 7,
+        "value": 3.52
+      },
+      {
+        "month": 8,
+        "value": null
+      },
+      {
+        "month": 9,
+        "value": null
+      },
+      {
+        "month": 10,
+        "value": null
+      },
+      {
+        "month": 11,
+        "value": null
+      },
+      {
+        "month": 12,
+        "value": null
+      }
+    ],
+    "nino1998": [
+      {
+        "month": 1,
+        "value": 2.88
+      },
+      {
+        "month": 2,
+        "value": 2.02
+      },
+      {
+        "month": 3,
+        "value": 2.08
+      },
+      {
+        "month": 4,
+        "value": 2.44
+      },
+      {
+        "month": 5,
+        "value": 3.1
+      },
+      {
+        "month": 6,
+        "value": 2
+      },
+      {
+        "month": 7,
+        "value": 1.54
+      },
+      {
+        "month": 8,
+        "value": 0.95
+      },
+      {
+        "month": 9,
+        "value": 0.52
+      },
+      {
+        "month": 10,
+        "value": 0.75
+      },
+      {
+        "month": 11,
+        "value": -0.28
+      },
+      {
+        "month": 12,
+        "value": 0.14
+      }
+    ],
+    "nino2017": [
+      {
+        "month": 1,
+        "value": 1
+      },
+      {
+        "month": 2,
+        "value": 1.13
+      },
+      {
+        "month": 3,
+        "value": 1.92
+      },
+      {
+        "month": 4,
+        "value": 0.7
+      },
+      {
+        "month": 5,
+        "value": 0.34
+      },
+      {
+        "month": 6,
+        "value": -0.03
+      },
+      {
+        "month": 7,
+        "value": -0.3
+      },
+      {
+        "month": 8,
+        "value": -0.26
+      },
+      {
+        "month": 9,
+        "value": -0.7
+      },
+      {
+        "month": 10,
+        "value": -1.02
+      },
+      {
+        "month": 11,
+        "value": -1.08
+      },
+      {
+        "month": 12,
+        "value": -1.22
+      }
+    ]
+  },
   "enfen": {
-    "title": "Comunicado Oficial ENFEN N.° 13-2026",
+    "title": "COMUNICADO OFICIAL ENFEN N° 13 – 2026 Estado de sistema de alerta: Alerta de El Niño Costero",
     "state": "Alerta de El Niño Costero",
-    "date": "17 jul 2026",
+    "date": "18 jul 2026",
     "url": "https://enfen.imarpe.gob.pe/2026/07/17/comunicado-oficial-enfen-n-13-2026-estado-de-sistema-de-alerta-alerta-de-el-nino-costero/"
   }
 }
