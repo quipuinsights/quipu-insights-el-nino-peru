@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const title = "Quipu Insights | El Niño Perú: del océano a los impactos";
+const title = "Quipu Insights | Sostenibilidad El Niño Perú";
 const description =
-  "Observatorio abierto del Niño Costero y sus impactos en Perú: océano, lluvia, ríos, salud, agro y pesca con fuentes oficiales.";
+  "Indicador y observatorio abierto para entender El Niño Costero en Perú: estado oficial, anomalía del mar, mapa, impactos y pronósticos explicados.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -20,10 +20,10 @@ export const metadata: Metadata = {
     siteName: "Quipu Insights",
     images: [
       {
-        url: "og-impactos.png",
-        width: 1728,
-        height: 910,
-        alt: "Quipu Insights: El Niño Perú, del océano a los impactos",
+        url: "og-sostenibilidad.png",
+        width: 1536,
+        height: 1024,
+        alt: "Quipu Insights: Sostenibilidad El Niño Perú",
       },
     ],
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: ["og-impactos.png"],
+    images: ["og-sostenibilidad.png"],
   },
 };
 

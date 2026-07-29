@@ -2,9 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-type Profile = "citizen" | "agro" | "technical";
 type LayerKey = "ocean" | "rain" | "rivers";
-type Severity = "low" | "medium" | "high";
+type ForecastHorizon = 3 | 6 | 9;
 
 type Indicator = {
   value: number | null;
@@ -156,30 +155,6 @@ const riverByDepartment: Record<string, string> = {
   "Madre De Dios": "Río Madre de Dios",
 };
 
-const profileContent: Record<
-  Profile,
-  { label: string; eyebrow: string; description: string }
-> = {
-  citizen: {
-    label: "Vista Ciudadano",
-    eyebrow: "Lo esencial primero",
-    description:
-      "Riesgos, alertas e impactos explicados con lenguaje directo.",
-  },
-  agro: {
-    label: "Vista Agro",
-    eyebrow: "Decisiones productivas",
-    description:
-      "Destaca lluvia, temperatura, pronósticos y señales para el campo.",
-  },
-  technical: {
-    label: "Vista Técnico",
-    eyebrow: "Trazabilidad completa",
-    description:
-      "Muestra índices oceánicos, series históricas y metodología.",
-  },
-};
-
 const sources = [
   {
     name: "ENFEN",
@@ -271,63 +246,20 @@ function belongsTo(
   return (departmentGroups[group] as readonly string[]).includes(department);
 }
 
-function severityFor(layer: LayerKey, department: string): Severity {
-  if (layer === "ocean") {
-    if (
-      belongsTo("northCoast", department) ||
-      belongsTo("centralCoast", department)
-    ) {
-      return "high";
-    }
-    if (belongsTo("southCoast", department)) return "medium";
-    return "low";
-  }
-
-  if (layer === "rain") {
-    if (belongsTo("northCoast", department)) return "high";
-    if (
-      belongsTo("centralCoast", department) ||
-      department === "Cajamarca" ||
-      department === "Amazonas"
-    ) {
-      return "medium";
-    }
-    return "low";
-  }
-
-  if (
-    ["Tumbes", "Piura", "Lambayeque", "Loreto", "Ucayali"].includes(
-      department,
-    )
-  ) {
-    return "high";
-  }
-  if (
+function isCoastalDepartment(department: string) {
+  return (
+    belongsTo("northCoast", department) ||
     belongsTo("centralCoast", department) ||
-    ["Huanuco", "San Martin", "Amazonas"].includes(department)
-  ) {
-    return "medium";
-  }
-  return "low";
-}
-
-function combinedSeverity(
-  layers: Set<LayerKey>,
-  department: string,
-): Severity {
-  const rank: Record<Severity, number> = { low: 1, medium: 2, high: 3 };
-  const active = Array.from(layers).map((layer) =>
-    severityFor(layer, department),
+    belongsTo("southCoast", department)
   );
-  return active.sort((a, b) => rank[b] - rank[a])[0] ?? "low";
 }
 
 function territoryCopy(department: string) {
   if (belongsTo("northCoast", department)) {
     return {
       zone: "Costa norte",
-      rain: "Señal demostrativa alta: priorizar avisos y acumulados recientes.",
-      temperature: "Anomalía costera cálida con vigilancia reforzada.",
+      rain: "La lluvia debe verificarse con avisos y acumulados recientes del SENAMHI.",
+      temperature: "Niño 1+2 describe el mar costero, no la temperatura del aire.",
       dengue:
         "Clima favorable no equivale a brote; revisar casos por semana epidemiológica.",
       agro: "Mayor atención a anegamiento, plagas y temperatura mínima.",
@@ -336,8 +268,8 @@ function territoryCopy(department: string) {
   if (belongsTo("centralCoast", department)) {
     return {
       zone: "Costa central",
-      rain: "Señal demostrativa media, variable entre cuencas.",
-      temperature: "Condición cálida costera; verificar la estación más cercana.",
+      rain: "La lluvia varía entre cuencas y requiere una lectura local.",
+      temperature: "El contexto costero debe contrastarse con la estación más cercana.",
       dengue: "Cruce climático en preparación con datos territoriales del MINSA.",
       agro: "Vigilar disponibilidad hídrica y cultivos sensibles al calor.",
     };
@@ -345,7 +277,7 @@ function territoryCopy(department: string) {
   if (belongsTo("southCoast", department)) {
     return {
       zone: "Costa sur",
-      rain: "Sin señal departamental uniforme en esta capa demostrativa.",
+      rain: "No se asigna un nivel departamental sin un dato oficial consolidado.",
       temperature: "Seguimiento costero y local por SENAMHI.",
       dengue: "No se infiere riesgo epidemiológico solo desde el océano.",
       agro: "Priorizar déficit hídrico y temperatura mínima.",
@@ -367,6 +299,20 @@ function territoryCopy(department: string) {
     dengue: "La transmisión tiene dinámica propia y no depende solo del ENSO.",
     agro: "Vigilar exceso de humedad, plagas y accesibilidad.",
   };
+}
+
+function anomalyExplanation(value: number | null) {
+  if (value === null || Number.isNaN(value)) {
+    return "NOAA no ofrece un valor reciente disponible para esta lectura.";
+  }
+  const magnitude = Math.abs(value).toFixed(1).replace(".", ",");
+  if (value > 0) {
+    return `La superficie del mar en Niño 1+2 está ${magnitude} °C más cálida que su promedio de referencia.`;
+  }
+  if (value < 0) {
+    return `La superficie del mar en Niño 1+2 está ${magnitude} °C más fría que su promedio de referencia.`;
+  }
+  return "La superficie del mar en Niño 1+2 está cerca de su promedio de referencia.";
 }
 
 function signed(value: number | null, decimals = 1) {
@@ -642,18 +588,16 @@ function EventComparisonChart({
 }
 
 function PeruRiskMap({
-  profile,
   department,
+  nino12,
   onDepartmentChange,
 }: {
-  profile: Profile;
   department: string;
+  nino12: Indicator;
   onDepartmentChange: (department: string) => void;
 }) {
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [layers, setLayers] = useState<Set<LayerKey>>(
-    new Set(["rain", "rivers"]),
-  );
+  const [activeLayer, setActiveLayer] = useState<LayerKey>("ocean");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -671,38 +615,56 @@ function PeruRiskMap({
   }, []);
 
   const selectedCopy = territoryCopy(department);
-  const selectedSeverity = combinedSeverity(layers, department);
+  const coastalContext = isCoastalDepartment(department);
 
-  function toggleLayer(layer: LayerKey) {
-    setLayers((current) => {
-      const next = new Set(current);
-      if (next.has(layer)) next.delete(layer);
-      else next.add(layer);
-      return next;
-    });
-  }
-
-  const layerLabels: Record<LayerKey, string> = {
-    ocean: "Anomalía del mar",
-    rain: "Riesgo de lluvia",
-    rivers: "Caudales y avisos",
+  const layerContent: Record<
+    LayerKey,
+    { label: string; title: string; explanation: string; status: string }
+  > = {
+    ocean: {
+      label: "Mar costero",
+      title: "Contexto oceánico",
+      explanation:
+        "Niño 1+2 describe el mar frente a Perú y Ecuador. No asigna por sí solo un riesgo a cada departamento.",
+      status: coastalContext ? "Contexto costero" : "Requiere lectura local",
+    },
+    rain: {
+      label: "Lluvia",
+      title: "Lluvia departamental",
+      explanation:
+        "La página no colorea riesgo de lluvia mientras no exista un valor oficial consolidado para el departamento.",
+      status: "Sin nivel consolidado",
+    },
+    rivers: {
+      label: "Ríos y avisos",
+      title: "Cuencas y avisos",
+      explanation:
+        "Se muestran las cuencas que conviene consultar. El nivel de alerta debe confirmarse directamente en SENAMHI.",
+      status: "Consultar aviso vigente",
+    },
   };
+  const activeCopy = layerContent[activeLayer];
 
   return (
-    <section
-      className={`risk-map-section ${profile === "agro" ? "profile-highlight" : ""}`}
-      id="mapa"
-    >
+    <section className="risk-map-section" id="mapa">
       <div className="section-shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Territorio primero</p>
-            <h2>Mapa de señales e impactos</h2>
+            <p className="eyebrow">Situación por departamento</p>
+            <h2>Mapa interactivo del Perú</h2>
           </div>
           <p className="section-intro">
-            Selecciona un departamento y combina capas. Los colores actuales son
-            una demostración de la arquitectura, no una alerta local.
+            Selecciona un departamento. Después elige qué información quieres
+            consultar en el panel lateral.
           </p>
+        </div>
+
+        <div className="map-instruction">
+          <strong>Cómo usarlo:</strong>
+          <span>
+            1. Elige una capa. 2. Haz clic en un departamento. 3. Revisa la
+            explicación, fecha y fuente.
+          </span>
         </div>
 
         <div className="map-toolbar" aria-label="Capas del mapa">
@@ -710,15 +672,17 @@ function PeruRiskMap({
             <button
               type="button"
               key={layer}
-              aria-pressed={layers.has(layer)}
-              className={layers.has(layer) ? "active" : ""}
-              onClick={() => toggleLayer(layer)}
+              aria-pressed={activeLayer === layer}
+              className={activeLayer === layer ? "active" : ""}
+              onClick={() => setActiveLayer(layer)}
             >
               <i className={`layer-icon layer-${layer}`} />
-              {layerLabels[layer]}
+              {layerContent[layer].label}
             </button>
           ))}
-          <span className="demo-badge">Capa demostrativa</span>
+          <span className="data-availability-badge">
+            Sin colores de riesgo inventados
+          </span>
         </div>
 
         <div className="map-layout">
@@ -731,16 +695,22 @@ function PeruRiskMap({
                 aria-label="Mapa interactivo de departamentos del Perú"
               >
                 {mapData.departments.map((item) => {
-                  const severity = combinedSeverity(layers, item.name);
                   const selected = item.name === department;
+                  const oceanContext =
+                    activeLayer === "ocean" &&
+                    isCoastalDepartment(item.name);
                   return (
                     <path
                       key={item.code}
                       d={item.path}
-                      className={`map-region severity-${severity} ${selected ? "selected" : ""}`}
+                      className={`map-region ${
+                        oceanContext ? "ocean-context" : "data-neutral"
+                      } ${selected ? "selected" : ""}`}
                       role="button"
                       tabIndex={0}
-                      aria-label={`${displayDepartment(item.name)}: señal ${severity}`}
+                      aria-label={`${displayDepartment(item.name)}${
+                        selected ? ", seleccionado" : ""
+                      }`}
                       onClick={() => onDepartmentChange(item.name)}
                       onKeyDown={(event) => {
                         if (event.key === "Enter" || event.key === " ") {
@@ -750,12 +720,7 @@ function PeruRiskMap({
                       }}
                     >
                       <title>
-                        {displayDepartment(item.name)} · señal{" "}
-                        {severity === "high"
-                          ? "alta"
-                          : severity === "medium"
-                            ? "media"
-                            : "baja"}
+                        {displayDepartment(item.name)} · haz clic para consultar
                       </title>
                     </path>
                   );
@@ -764,10 +729,21 @@ function PeruRiskMap({
             ) : (
               <div className="map-loading">Preparando mapa oficial del INEI…</div>
             )}
-            <div className="map-legend" aria-label="Leyenda">
-              <span><i className="legend-low" />Baja</span>
-              <span><i className="legend-medium" />Media</span>
-              <span><i className="legend-high" />Alta</span>
+            <div className="map-legend" aria-label="Qué significan los colores">
+              {activeLayer === "ocean" && (
+                <span>
+                  <i className="legend-ocean-map" />
+                  Costa: contexto directo de Niño 1+2
+                </span>
+              )}
+              <span>
+                <i className="legend-neutral-map" />
+                Sin nivel oficial consolidado
+              </span>
+              <span>
+                <i className="legend-selected-map" />
+                Departamento seleccionado
+              </span>
             </div>
             <a
               className="map-source"
@@ -785,37 +761,53 @@ function PeruRiskMap({
                 <span>{selectedCopy.zone}</span>
                 <h3>{displayDepartment(department)}</h3>
               </div>
-              <strong className={`risk-pill risk-${selectedSeverity}`}>
-                Señal{" "}
-                {selectedSeverity === "high"
-                  ? "alta"
-                  : selectedSeverity === "medium"
-                    ? "media"
-                    : "baja"}
+              <strong
+                className={`territory-status ${
+                  activeLayer === "ocean" && coastalContext
+                    ? "context-available"
+                    : "context-pending"
+                }`}
+              >
+                {activeCopy.status}
               </strong>
             </div>
             <p className="territory-intro">
-              Lectura departamental orientativa. Al incorporar datos
-              provinciales se mostrará el nivel territorial real de cada fuente.
+              {activeCopy.explanation}
             </p>
             <div className="territory-grid">
               <article>
-                <span>Lluvia</span>
-                <p>{selectedCopy.rain}</p>
-              </article>
-              <article>
-                <span>Temperatura</span>
-                <p>{selectedCopy.temperature}</p>
-              </article>
-              <article>
-                <span>Ríos priorizados</span>
-                <p>{riverByDepartment[department] ?? "Estaciones regionales"}</p>
-              </article>
-              <article>
-                <span>{profile === "agro" ? "Agro" : "Salud"}</span>
+                <span>{activeCopy.title}</span>
                 <p>
-                  {profile === "agro" ? selectedCopy.agro : selectedCopy.dengue}
+                  {activeLayer === "ocean"
+                    ? coastalContext
+                      ? anomalyExplanation(nino12.value)
+                      : "Niño 1+2 no debe trasladarse directamente a este departamento."
+                    : activeLayer === "rain"
+                      ? selectedCopy.rain
+                      : riverByDepartment[department] ?? "Cuencas regionales"}
                 </p>
+              </article>
+              <article>
+                <span>Dato actual</span>
+                <p>
+                  {activeLayer === "ocean"
+                    ? `${signed(nino12.value)} · NOAA · ${nino12.date}`
+                    : "Aún no integrado en el tablero. Usa el enlace oficial de abajo."}
+                </p>
+              </article>
+              <article>
+                <span>Qué conviene verificar</span>
+                <p>
+                  {activeLayer === "rivers"
+                    ? "Caudal actual, normal mensual y aviso vigente."
+                    : activeLayer === "rain"
+                      ? "Acumulado reciente, anomalía y pronóstico local."
+                      : selectedCopy.temperature}
+                </p>
+              </article>
+              <article>
+                <span>Impactos relacionados</span>
+                <p>{selectedCopy.dengue} {selectedCopy.agro}</p>
               </article>
             </div>
             <div className="territory-actions">
@@ -824,14 +816,14 @@ function PeruRiskMap({
                 target="_blank"
                 rel="noreferrer"
               >
-                Avisos SENAMHI ↗
+                Abrir avisos SENAMHI ↗
               </a>
               <a
                 href="https://www.senamhi.gob.pe/?p=pronostico-climatico"
                 target="_blank"
                 rel="noreferrer"
               >
-                Pronóstico local ↗
+                Abrir pronóstico local ↗
               </a>
             </div>
           </aside>
@@ -843,9 +835,12 @@ function PeruRiskMap({
 
 export default function Home() {
   const [live, setLive] = useState<LiveData>(FALLBACK_DATA);
-  const [profile, setProfile] = useState<Profile>("citizen");
   const [historyStart, setHistoryStart] = useState<1950 | 1981>(1981);
   const [department, setDepartment] = useState("Piura");
+  const [showSituationHelp, setShowSituationHelp] = useState(false);
+  const [showOceanHelp, setShowOceanHelp] = useState(false);
+  const [forecastHorizon, setForecastHorizon] =
+    useState<ForecastHorizon>(3);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -924,11 +919,71 @@ export default function Home() {
     );
   }
 
-  const enfenRisk =
-    live.enfen.state.toLocaleLowerCase("es").includes("alerta") ? "high" : "medium";
+  const normalizedEnfenState = live.enfen.state.toLocaleLowerCase("es");
+  const enfenLevel = normalizedEnfenState.includes("alerta")
+    ? "alert"
+    : normalizedEnfenState.includes("vigilancia")
+      ? "watch"
+      : "normal";
+
+  const forecastOptions: Record<
+    ForecastHorizon,
+    {
+      label: string;
+      value: string;
+      subject: string;
+      period: string;
+      meaning: string;
+      limit: string;
+      source: string;
+      href: string;
+      percent: number | null;
+    }
+  > = {
+    3: {
+      label: "3 meses",
+      value: "97%",
+      subject: "Persistencia del evento oceánico",
+      period: "Horizonte aproximado de tres meses desde la publicación",
+      meaning:
+        "La fuente considera muy probable que las condiciones de El Niño continúen.",
+      limit:
+        "No significa 97% de probabilidad de inundación ni 97% del Perú afectado.",
+      source: "NOAA CPC",
+      href: "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml",
+      percent: 97,
+    },
+    6: {
+      label: "6 meses",
+      value: "81%",
+      subject: "Intensidad oceánica muy fuerte",
+      period: "Periodo OND 2026: octubre, noviembre y diciembre",
+      meaning:
+        "El porcentaje publicado se refiere a una categoría de intensidad oceánica.",
+      limit:
+        "No es una estimación del territorio, la población o los cultivos que serían afectados.",
+      source: "NOAA CPC",
+      href: "https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths/",
+      percent: 81,
+    },
+    9: {
+      label: "9 meses",
+      value: "Cualitativo",
+      subject: "Escenario comunicado por ENFEN",
+      period: "Referencia hasta abril de 2027",
+      meaning:
+        "ENFEN comunica un escenario probable, pero no publica un porcentaje único comparable.",
+      limit:
+        "No debe compararse numéricamente con 97% o 81% porque responde a otra pregunta.",
+      source: "ENFEN",
+      href: live.enfen.url,
+      percent: null,
+    },
+  };
+  const selectedForecast = forecastOptions[forecastHorizon];
 
   return (
-    <main className={`profile-${profile}`}>
+    <main>
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Quipu Insights, inicio">
           <span className="brand-mark" aria-hidden="true">Q</span>
@@ -952,7 +1007,8 @@ export default function Home() {
 
       <aside className="top-notice" aria-label="Información del dashboard">
         <span>
-          Actualización automática <strong>cada 24 horas · 5:00 p. m.</strong>
+          Sostenibilidad y datos abiertos · actualización{" "}
+          <strong>cada 24 horas · 5:00 p. m.</strong>
         </span>
         <a href="#mapa">Lectura territorial de Perú</a>
         <a
@@ -966,258 +1022,301 @@ export default function Home() {
         </a>
       </aside>
 
-      <section className="profile-bar" aria-label="Selector de perfil">
-        <div className="profile-switcher" role="group" aria-label="Tipo de vista">
-          {(Object.keys(profileContent) as Profile[]).map((item) => (
-            <button
-              type="button"
-              key={item}
-              className={profile === item ? "active" : ""}
-              aria-pressed={profile === item}
-              onClick={() => setProfile(item)}
-            >
-              {profileContent[item].label}
-            </button>
-          ))}
-        </div>
-        <p>
-          <strong>{profileContent[profile].eyebrow}</strong>
-          {profileContent[profile].description}
-        </p>
-      </section>
-
       <section className="hero" id="inicio">
         <div className="hero-copy">
-          <p className="eyebrow">Observatorio abierto · Perú primero</p>
+          <p className="eyebrow">
+            Quipu Insights · Sostenibilidad climática
+          </p>
           <h1>
-            Del océano
-            <span>a los impactos</span>
+            Entender El Niño
+            <span>para actuar mejor</span>
           </h1>
           <p className="hero-lede">
-            Quipu Insights conecta el Niño Costero con lluvia, ríos, salud y
-            actividad productiva, siempre mostrando la fecha y la fuente.
+            Una lectura única para comprender el estado oficial, el calentamiento
+            del mar y los impactos que deben confirmarse con datos del Perú.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#mapa">Explorar el mapa</a>
-            <a className="button secondary" href="#impactos">Ver impactos</a>
+            <a className="button secondary" href="#pronosticos">
+              Entender el pronóstico
+            </a>
           </div>
         </div>
 
-        <aside className="hero-risk-board" aria-label="Resumen de riesgo">
+        <aside className="hero-risk-board" aria-label="Indicador de situación actual">
           <div className="risk-board-title">
-            <span>Resumen oficial y territorial</span>
+            <span>Indicador de situación actual</span>
             <time>{live.enfen.date}</time>
           </div>
-          <article>
-            <div>
-              <span>Estado climático ENFEN</span>
-              <strong>{live.enfen.state}</strong>
-            </div>
-            <i className={`risk-light risk-${enfenRisk}`} />
-          </article>
-          <article>
-            <div>
+          <div className={`attention-state attention-${enfenLevel}`}>
+            <span>Estado oficial ENFEN</span>
+            <strong>{live.enfen.state}</strong>
+          </div>
+          <div className="attention-scale" aria-label="Escala de atención">
+            {[
+              ["normal", "Sin alerta"],
+              ["watch", "Vigilancia"],
+              ["alert", "Alerta oficial"],
+            ].map(([level, label]) => (
+              <span
+                key={level}
+                className={enfenLevel === level ? "active" : ""}
+              >
+                <i className={`attention-${level}`} />
+                {label}
+              </span>
+            ))}
+          </div>
+          <div className="situation-signals">
+            <article>
+              <span>Mar costero Niño 1+2</span>
+              <strong>{signed(live.indicators.nino12.value)}</strong>
+              <small>{anomalyExplanation(live.indicators.nino12.value)}</small>
+            </article>
+            <article>
               <span>Impactos territoriales</span>
-              <strong>Cobertura piloto</strong>
+              <strong>Sin nivel consolidado</strong>
+              <small>
+                No se asigna riesgo sin lluvia, ríos o afectaciones observadas.
+              </small>
+            </article>
+          </div>
+          <button
+            type="button"
+            className="explain-control"
+            aria-expanded={showSituationHelp}
+            onClick={() => setShowSituationHelp((value) => !value)}
+          >
+            {showSituationHelp
+              ? "Ocultar explicación"
+              : "¿Qué significa este indicador?"}
+          </button>
+          {showSituationHelp && (
+            <div className="indicator-explanation">
+              <strong>Alerta no significa impacto en todo el Perú.</strong>
+              <p>
+                ENFEN describe la situación climática costera. Los desbordes,
+                casos de dengue o daños productivos requieren evidencia
+                territorial adicional.
+              </p>
             </div>
-            <i className="risk-light risk-medium" />
-          </article>
+          )}
           <a href={live.enfen.url} target="_blank" rel="noreferrer">
             Abrir comunicado vigente ↗
           </a>
-          <small>
-            Separamos el estado de El Niño del riesgo de desborde, dengue o
-            afectación productiva.
-          </small>
         </aside>
       </section>
 
       <section className="summary section-shell" id="resumen">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Lectura rápida</p>
-            <h2>Qué sabemos hoy</h2>
+            <p className="eyebrow">Lo esencial de hoy</p>
+            <h2>Entiéndelo en menos de un minuto</h2>
           </div>
           <p className="section-intro">
-            El océano explica el contexto. Las consecuencias se verifican con
-            lluvia, ríos y datos territoriales.
+            Última revisión: {formatDateTime(live.generatedAt)}. Cada tarjeta
+            responde una pregunta diferente.
           </p>
         </div>
         <div className="summary-grid">
           <article className="summary-card primary-summary">
-            <span>Niño Costero</span>
+            <span>¿Cuál es el estado oficial?</span>
             <strong>{live.enfen.state}</strong>
-            <small>ENFEN · {live.enfen.date}</small>
+            <p>Es la denominación publicada por ENFEN.</p>
+            <small>Fuente: ENFEN · {live.enfen.date}</small>
           </article>
           <article className="summary-card">
-            <span>Niño 1+2</span>
+            <span>¿Qué pasa con el mar?</span>
             <strong>{signed(live.indicators.nino12.value)}</strong>
-            <small>NOAA · {live.indicators.nino12.date}</small>
+            <p>{anomalyExplanation(live.indicators.nino12.value)}</p>
+            <button
+              type="button"
+              className="card-explain-button"
+              aria-expanded={showOceanHelp}
+              onClick={() => setShowOceanHelp((value) => !value)}
+            >
+              {showOceanHelp ? "Cerrar explicación" : "Entender este valor"}
+            </button>
+            {showOceanHelp && (
+              <small className="inline-explanation">
+                No es temperatura del aire ni promedio de todo el Perú. Es una
+                anomalía de la superficie del mar en la región Niño 1+2.
+              </small>
+            )}
           </article>
           <article className="summary-card">
-            <span>Territorio</span>
-            <strong>Mapa piloto</strong>
-            <small>Capas de mar, lluvia y ríos</small>
+            <span>¿Hay impactos confirmados?</span>
+            <strong>Sin indicador único</strong>
+            <p>
+              Se revisan lluvia, ríos, salud, pesca y agro por separado.
+            </p>
+            <small>No se inventa un riesgo territorial.</small>
           </article>
           <article className="summary-card">
-            <span>Próxima revisión</span>
-            <strong>24 horas</strong>
-            <small>{formatDateTime(live.nextRefreshAt)}</small>
+            <span>¿Qué conviene vigilar?</span>
+            <strong>Ríos y lluvia</strong>
+            <p>
+              Consulta avisos locales y selecciona tu departamento en el mapa.
+            </p>
+            <a href="#mapa">Ir al mapa interactivo ↓</a>
           </article>
         </div>
       </section>
 
-      {profile !== "citizen" && (
-        <section className="technical-snapshot section-shell" id="indicadores">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Contexto oceánico</p>
-              <h2>Dos zonas, una historia conectada</h2>
-            </div>
-            <p className="section-intro">
-              Niño 1+2 representa el Pacífico oriental cercano al Perú. Niño
-              3.4 resume el Pacífico ecuatorial central.
-            </p>
+      <section className="technical-snapshot section-shell" id="indicadores">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Indicadores oceanográficos</p>
+            <h2>Perú y el Pacífico central</h2>
           </div>
-          <div className="metric-grid">
-            {[
-              ["Niño 1+2", live.indicators.nino12, "Costa peruana"],
-              ["ICEN", live.indicators.icen, "Índice costero ENFEN"],
-              ["Niño 3.4", live.indicators.nino34, "Pacífico central"],
-              ["ONI", live.indicators.oni, "Promedio trimestral"],
-            ].map(([name, rawIndicator, detail]) => {
-              const indicator = rawIndicator as Indicator;
-              return (
-                <article className="metric-card" key={String(name)}>
-                  <div className="metric-label">{String(name)}</div>
-                  <strong>{signed(indicator.value)}</strong>
-                  <p>{String(detail)}</p>
-                  <span className="metric-date">{indicator.date}</span>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-      )}
+          <p className="section-intro">
+            Son anomalías de temperatura del mar. Un valor positivo significa
+            más calor que el promedio de referencia.
+          </p>
+        </div>
+        <div className="metric-grid">
+          {[
+            [
+              "Niño 1+2",
+              live.indicators.nino12,
+              "Mar cercano a Perú y Ecuador.",
+            ],
+            ["ICEN", live.indicators.icen, "Índice costero calculado por ENFEN."],
+            [
+              "Niño 3.4",
+              live.indicators.nino34,
+              "Pacífico ecuatorial central.",
+            ],
+            ["ONI", live.indicators.oni, "Promedio móvil de tres meses."],
+          ].map(([name, rawIndicator, detail]) => {
+            const indicator = rawIndicator as Indicator;
+            return (
+              <article className="metric-card" key={String(name)}>
+                <div className="metric-label">{String(name)}</div>
+                <strong>{signed(indicator.value)}</strong>
+                <p>{String(detail)}</p>
+                <span className="metric-date">{indicator.date}</span>
+              </article>
+            );
+          })}
+        </div>
+        <p className="chart-explainer compact-explainer">
+          Estos índices describen el océano; no indican por sí solos cuántas
+          personas, provincias o cultivos serán afectados.
+        </p>
+      </section>
 
       <PeruRiskMap
-        profile={profile}
         department={department}
+        nino12={live.indicators.nino12}
         onDepartmentChange={setDepartment}
       />
 
-      <section
-        className={`impacts-section section-shell ${profile === "agro" ? "profile-highlight" : ""}`}
-        id="impactos"
-      >
+      <section className="impacts-section section-shell" id="impactos">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">De la señal a la consecuencia</p>
-            <h2>Módulos de impacto</h2>
+            <p className="eyebrow">Del clima a la vida cotidiana</p>
+            <h2>Impactos observados en Perú</h2>
           </div>
           <p className="section-intro">
-            Cada módulo declara qué está conectado, qué es histórico y qué sigue
-            en validación.
+            Esta sección no convierte el calentamiento del mar en daño
+            automático. Indica qué dato existe y dónde verificarlo.
           </p>
         </div>
-        <div className="impact-grid">
-          <article className="impact-card hydrology-card">
-            <div className="impact-card-top">
+        <div className="impact-purpose">
+          <strong>¿Para qué sirve este módulo?</strong>
+          <p>
+            Para comprobar consecuencias reales: desbordes, casos de dengue,
+            cambios pesqueros o condiciones adversas para cultivos. Si no hay un
+            valor oficial integrado, lo decimos expresamente.
+          </p>
+        </div>
+        <div className="impact-status-list">
+          <article className="impact-status-item">
+            <div className="impact-status-heading">
               <span>01 · Hidrología</span>
-              <i className="status-dot amber" />
+              <strong className="data-status unavailable">
+                Dato no integrado
+              </strong>
             </div>
             <h3>Ríos y reservorios</h3>
-            <strong>Conexión en validación</strong>
             <p>
-              Priorizamos Piura, Chira, Rímac y las cuencas con avisos activos
-              del SENAMHI.
+              Debe comparar caudal actual, normal mensual y aviso vigente. Por
+              ahora la verificación se realiza en SENAMHI.
             </p>
-            <div className="impact-tags">
-              <span>Caudal actual</span>
-              <span>Normal mensual</span>
-              <span>Aviso vigente</span>
-            </div>
             <a
+              className="impact-action"
               href="https://www.senamhi.gob.pe/?p=avisos-detalle-hidrologicos"
               target="_blank"
               rel="noreferrer"
             >
-              Abrir avisos oficiales ↗
+              Consultar avisos oficiales ↗
             </a>
           </article>
 
-          <article className="impact-card health-card">
-            <div className="impact-card-top">
+          <article className="impact-status-item">
+            <div className="impact-status-heading">
               <span>02 · Salud pública</span>
-              <i className="status-dot green" />
+              <strong className="data-status historical">
+                Serie histórica
+              </strong>
             </div>
             <h3>Dengue</h3>
-            <strong>Serie histórica 2000–2024</strong>
             <p>
-              Datos oficiales por semana, departamento, provincia y distrito.
-              La asociación climática no se presenta como causa única.
+              MINSA ofrece datos 2000–2024 por semana y territorio. La página no
+              presenta el clima como causa única de los casos.
             </p>
-            <div className="impact-tags">
-              <span>Semana epidemiológica</span>
-              <span>Tasa territorial</span>
-              <span>Desfase climático</span>
-            </div>
             <a
+              className="impact-action"
               href="https://www.datosabiertos.gob.pe/dataset/vigilancia-epidemiol%C3%B3gica-de-dengue"
               target="_blank"
               rel="noreferrer"
             >
-              Abrir dataset MINSA ↗
+              Abrir datos MINSA ↗
             </a>
           </article>
 
-          <article className="impact-card fish-card">
-            <div className="impact-card-top">
+          <article className="impact-status-item">
+            <div className="impact-status-heading">
               <span>03 · Pesca</span>
-              <i className="status-dot amber" />
+              <strong className="data-status periodic">
+                Publicación periódica
+              </strong>
             </div>
             <h3>Anchoveta</h3>
-            <strong>Último crucero disponible</strong>
             <p>
-              Biomasa, distribución, profundidad y juveniles se actualizan
-              cuando IMARPE publica una evaluación oficial.
+              Biomasa, distribución y presencia de juveniles se verifican con
+              la última evaluación publicada por IMARPE.
             </p>
-            <div className="impact-tags">
-              <span>Biomasa</span>
-              <span>Distribución</span>
-              <span>Juveniles</span>
-            </div>
             <a
+              className="impact-action"
               href="https://repositorio.imarpe.gob.pe/"
               target="_blank"
               rel="noreferrer"
             >
-              Repositorio IMARPE ↗
+              Consultar IMARPE ↗
             </a>
           </article>
 
-          <article className="impact-card agro-card">
-            <div className="impact-card-top">
-              <span>04 · Agro</span>
-              <i className="status-dot amber" />
+          <article className="impact-status-item">
+            <div className="impact-status-heading">
+              <span>04 · Agricultura</span>
+              <strong className="data-status unavailable">
+                Sin indicador consolidado
+              </strong>
             </div>
-            <h3>Estrés hídrico y plagas</h3>
-            <strong>Metodología en preparación</strong>
+            <h3>Agua, temperatura y cultivos</h3>
             <p>
-              Combinará lluvia, temperatura mínima, déficit hídrico y calendario
-              de cultivos sin llamarlo “riesgo oficial”.
+              Para evaluar afectación se necesitan lluvia, temperatura mínima,
+              disponibilidad hídrica y calendario de cultivo.
             </p>
-            <div className="impact-tags">
-              <span>CHIRPS</span>
-              <span>Temperatura mínima</span>
-              <span>Cultivo</span>
-            </div>
             <a
+              className="impact-action"
               href="https://siea.midagri.gob.pe/portal/"
               target="_blank"
               rel="noreferrer"
             >
-              Estadística agraria ↗
+              Consultar MIDAGRI ↗
             </a>
           </article>
         </div>
@@ -1265,73 +1364,86 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        className={`forecast-section section-shell ${profile === "agro" ? "profile-highlight" : ""}`}
-        id="pronosticos"
-      >
+      <section className="forecast-section section-shell" id="pronosticos">
         <div className="section-heading">
           <div>
             <p className="eyebrow">Mirada hacia adelante</p>
-            <h2>Pronóstico a 3, 6 y 9 meses</h2>
+            <h2>Pronóstico explicado</h2>
           </div>
           <p className="section-intro">
-            Solo mostramos probabilidades publicadas. Una conclusión cualitativa
-            no se convierte en un porcentaje inventado.
+            Elige un horizonte. Los porcentajes responden preguntas distintas y
+            no equivalen a probabilidad de inundación.
           </p>
         </div>
-        <div className="forecast-grid">
-          <article className="forecast-card">
-            <span className="horizon">3 meses</span>
-            <div className="forecast-score">
-              <strong>97%</strong>
-              <span>persistencia</span>
-            </div>
-            <div className="probability-track"><span style={{ width: "97%" }} /></div>
-            <h3>El Niño continúa</h3>
-            <p>Probabilidad NOAA publicada para la persistencia del evento.</p>
-            <a
-              href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml"
-              target="_blank"
-              rel="noreferrer"
+        <div
+          className="forecast-selector"
+          role="group"
+          aria-label="Elegir horizonte del pronóstico"
+        >
+          {([3, 6, 9] as ForecastHorizon[]).map((horizon) => (
+            <button
+              type="button"
+              key={horizon}
+              className={forecastHorizon === horizon ? "active" : ""}
+              aria-pressed={forecastHorizon === horizon}
+              onClick={() => setForecastHorizon(horizon)}
             >
-              Fuente NOAA ↗
-            </a>
-          </article>
-          <article className="forecast-card featured">
-            <span className="horizon">6 meses</span>
-            <div className="forecast-score">
-              <strong>81%</strong>
-              <span>muy fuerte</span>
-            </div>
-            <div className="probability-track"><span style={{ width: "81%" }} /></div>
-            <h3>Pico hacia fin de año</h3>
-            <p>Probabilidad publicada para una intensidad muy fuerte en OND 2026.</p>
-            <a
-              href="https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Fuente NOAA ↗
-            </a>
-          </article>
-          <article className="forecast-card qualitative">
-            <span className="horizon">9 meses</span>
-            <div className="forecast-score">
-              <strong>Probable</strong>
-              <span>sin % único</span>
-            </div>
-            <div className="qualitative-track"><span /></div>
-            <h3>Hasta abril de 2027</h3>
-            <p>Escenario cualitativo comunicado por ENFEN.</p>
-            <a href={live.enfen.url} target="_blank" rel="noreferrer">
-              Fuente ENFEN ↗
-            </a>
-          </article>
+              <span>{forecastOptions[horizon].label}</span>
+              <strong>{forecastOptions[horizon].value}</strong>
+            </button>
+          ))}
         </div>
-        <p className="chart-explainer">
-          La intensidad oceánica no determina por sí sola los impactos en cada
-          región o actividad del Perú.
-        </p>
+        <article className="forecast-detail" aria-live="polite">
+          <div className="forecast-detail-main">
+            <span className="horizon">{selectedForecast.label}</span>
+            <div className="forecast-detail-score">
+              <strong>{selectedForecast.value}</strong>
+              <span>{selectedForecast.subject}</span>
+            </div>
+            {selectedForecast.percent !== null ? (
+              <div
+                className="probability-track"
+                aria-label={`${selectedForecast.percent}%`}
+              >
+                <span style={{ width: `${selectedForecast.percent}%` }} />
+              </div>
+            ) : (
+              <div className="qualitative-message">
+                No existe un porcentaje oficial único para este horizonte.
+              </div>
+            )}
+            <p className="forecast-period">{selectedForecast.period}</p>
+          </div>
+          <dl className="forecast-explanation">
+            <div>
+              <dt>¿Qué significa?</dt>
+              <dd>{selectedForecast.meaning}</dd>
+            </div>
+            <div>
+              <dt>¿Qué no significa?</dt>
+              <dd>{selectedForecast.limit}</dd>
+            </div>
+            <div>
+              <dt>Fuente</dt>
+              <dd>
+                <a
+                  href={selectedForecast.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Abrir {selectedForecast.source} ↗
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </article>
+        <div className="forecast-warning">
+          <strong>Importante:</strong>
+          <span>
+            97% describe persistencia; 81% describe intensidad; la evaluación de
+            9 meses es cualitativa. No son tres medidas equivalentes.
+          </span>
+        </div>
       </section>
 
       <section className="timeline-section section-shell">
@@ -1432,8 +1544,8 @@ export default function Home() {
           </article>
           <article>
             <span>02</span>
-            <h3>Demostración</h3>
-            <p>Las capas piloto están marcadas y nunca se presentan como alertas.</p>
+            <h3>Sin atajos</h3>
+            <p>Si un dato territorial no está integrado, el mapa no inventa un nivel.</p>
           </article>
           <article>
             <span>03</span>
