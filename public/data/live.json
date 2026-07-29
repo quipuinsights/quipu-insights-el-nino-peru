@@ -1,0 +1,96 @@
+{
+  "generatedAt": "2026-07-29T13:39:41.466Z",
+  "nextRefreshAt": "2026-07-29T22:00:00.000Z",
+  "mode": "fallback",
+  "indicators": {
+    "nino12": {
+      "value": 2.7,
+      "date": "09 jul 2026"
+    },
+    "nino34": {
+      "value": 1.2,
+      "date": "09 jul 2026"
+    },
+    "oni": {
+      "value": 0.98,
+      "date": "may 2026"
+    },
+    "icen": {
+      "value": null,
+      "date": "publicación mensual ENFEN"
+    }
+  },
+  "history": [
+    {
+      "year": 1950,
+      "nino12": null,
+      "nino34": -1
+    },
+    {
+      "year": 1957,
+      "nino12": null,
+      "nino34": 0.8
+    },
+    {
+      "year": 1965,
+      "nino12": null,
+      "nino34": 1
+    },
+    {
+      "year": 1972,
+      "nino12": null,
+      "nino34": 0.9
+    },
+    {
+      "year": 1981,
+      "nino12": -0.1,
+      "nino34": -0.2
+    },
+    {
+      "year": 1982,
+      "nino12": 1.3,
+      "nino34": 1
+    },
+    {
+      "year": 1988,
+      "nino12": -0.6,
+      "nino34": -1.2
+    },
+    {
+      "year": 1997,
+      "nino12": 1.7,
+      "nino34": 1.4
+    },
+    {
+      "year": 2007,
+      "nino12": -0.7,
+      "nino34": -0.8
+    },
+    {
+      "year": 2015,
+      "nino12": 0.8,
+      "nino34": 1.3
+    },
+    {
+      "year": 2017,
+      "nino12": 1.2,
+      "nino34": 0
+    },
+    {
+      "year": 2023,
+      "nino12": 1.5,
+      "nino34": 1.1
+    },
+    {
+      "year": 2026,
+      "nino12": 2.7,
+      "nino34": 1.2
+    }
+  ],
+  "enfen": {
+    "title": "Comunicado Oficial ENFEN N.° 13-2026",
+    "state": "Alerta de El Niño Costero",
+    "date": "17 jul 2026",
+    "url": "https://enfen.imarpe.gob.pe/2026/07/17/comunicado-oficial-enfen-n-13-2026-estado-de-sistema-de-alerta-alerta-de-el-nino-costero/"
+  }
+}
