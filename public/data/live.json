@@ -1,4 +1,1017 @@
 {
+  "generatedAt": "2026-08-07T01:53:01.821Z",
+  "nextRefreshAt": "2026-08-07T22:00:00.000Z",
+  "mode": "live",
+  "indicators": {
+    "nino12": {
+      "value": 4.1,
+      "date": "29 jul 2026"
+    },
+    "nino34": {
+      "value": 2.3,
+      "date": "29 jul 2026"
+    },
+    "roni": {
+      "value": 1,
+      "date": "AMJ 2026"
+    },
+    "oni": {
+      "value": 1.39,
+      "date": "MJJ 2026"
+    },
+    "icen": {
+      "value": 1.98,
+      "date": "may 2026 · pub. 26 jun"
+    }
+  },
+  "history": [
+    {
+      "year": 1950,
+      "nino12": null,
+      "nino34": -0.88
+    },
+    {
+      "year": 1951,
+      "nino12": null,
+      "nino34": 0.43
+    },
+    {
+      "year": 1952,
+      "nino12": null,
+      "nino34": 0.01
+    },
+    {
+      "year": 1953,
+      "nino12": null,
+      "nino34": 0.59
+    },
+    {
+      "year": 1954,
+      "nino12": null,
+      "nino34": -0.34
+    },
+    {
+      "year": 1955,
+      "nino12": null,
+      "nino34": -0.94
+    },
+    {
+      "year": 1956,
+      "nino12": null,
+      "nino34": -0.56
+    },
+    {
+      "year": 1957,
+      "nino12": null,
+      "nino34": 0.78
+    },
+    {
+      "year": 1958,
+      "nino12": null,
+      "nino34": 0.72
+    },
+    {
+      "year": 1959,
+      "nino12": null,
+      "nino34": 0.2
+    },
+    {
+      "year": 1960,
+      "nino12": null,
+      "nino34": 0.05
+    },
+    {
+      "year": 1961,
+      "nino12": null,
+      "nino34": -0.02
+    },
+    {
+      "year": 1962,
+      "nino12": null,
+      "nino34": -0.17
+    },
+    {
+      "year": 1963,
+      "nino12": null,
+      "nino34": 0.55
+    },
+    {
+      "year": 1964,
+      "nino12": null,
+      "nino34": -0.38
+    },
+    {
+      "year": 1965,
+      "nino12": null,
+      "nino34": 0.81
+    },
+    {
+      "year": 1966,
+      "nino12": null,
+      "nino34": 0.28
+    },
+    {
+      "year": 1967,
+      "nino12": null,
+      "nino34": -0.31
+    },
+    {
+      "year": 1968,
+      "nino12": null,
+      "nino34": 0.07
+    },
+    {
+      "year": 1969,
+      "nino12": null,
+      "nino34": 0.68
+    },
+    {
+      "year": 1970,
+      "nino12": null,
+      "nino34": -0.29
+    },
+    {
+      "year": 1971,
+      "nino12": null,
+      "nino34": -0.86
+    },
+    {
+      "year": 1972,
+      "nino12": null,
+      "nino34": 0.81
+    },
+    {
+      "year": 1973,
+      "nino12": null,
+      "nino34": -0.58
+    },
+    {
+      "year": 1974,
+      "nino12": null,
+      "nino34": -0.89
+    },
+    {
+      "year": 1975,
+      "nino12": null,
+      "nino34": -1
+    },
+    {
+      "year": 1976,
+      "nino12": null,
+      "nino34": -0.02
+    },
+    {
+      "year": 1977,
+      "nino12": null,
+      "nino34": 0.52
+    },
+    {
+      "year": 1978,
+      "nino12": null,
+      "nino34": -0.05
+    },
+    {
+      "year": 1979,
+      "nino12": null,
+      "nino34": 0.31
+    },
+    {
+      "year": 1980,
+      "nino12": null,
+      "nino34": 0.21
+    },
+    {
+      "year": 1981,
+      "nino12": -0.43,
+      "nino34": -0.39
+    },
+    {
+      "year": 1982,
+      "nino12": 0.45,
+      "nino34": 0.77
+    },
+    {
+      "year": 1983,
+      "nino12": 2.15,
+      "nino34": 0.17
+    },
+    {
+      "year": 1984,
+      "nino12": -0.63,
+      "nino34": -0.78
+    },
+    {
+      "year": 1985,
+      "nino12": -1.22,
+      "nino34": -0.9
+    },
+    {
+      "year": 1986,
+      "nino12": -0.39,
+      "nino34": -0.07
+    },
+    {
+      "year": 1987,
+      "nino12": 0.79,
+      "nino34": 0.89
+    },
+    {
+      "year": 1988,
+      "nino12": -1.21,
+      "nino34": -1.14
+    },
+    {
+      "year": 1989,
+      "nino12": -0.59,
+      "nino34": -0.93
+    },
+    {
+      "year": 1990,
+      "nino12": -0.63,
+      "nino34": -0.01
+    },
+    {
+      "year": 1991,
+      "nino12": -0.04,
+      "nino34": 0.47
+    },
+    {
+      "year": 1992,
+      "nino12": 0.29,
+      "nino34": 0.53
+    },
+    {
+      "year": 1993,
+      "nino12": 0.2,
+      "nino34": 0.22
+    },
+    {
+      "year": 1994,
+      "nino12": -0.45,
+      "nino34": 0.33
+    },
+    {
+      "year": 1995,
+      "nino12": -0.54,
+      "nino34": -0.27
+    },
+    {
+      "year": 1996,
+      "nino12": -1.09,
+      "nino34": -0.53
+    },
+    {
+      "year": 1997,
+      "nino12": 2.2,
+      "nino34": 0.93
+    },
+    {
+      "year": 1998,
+      "nino12": 1.48,
+      "nino34": -0.3
+    },
+    {
+      "year": 1999,
+      "nino12": -0.8,
+      "nino34": -1.2
+    },
+    {
+      "year": 2000,
+      "nino12": -0.63,
+      "nino34": -0.95
+    },
+    {
+      "year": 2001,
+      "nino12": -0.47,
+      "nino34": -0.38
+    },
+    {
+      "year": 2002,
+      "nino12": 0.4,
+      "nino34": 0.53
+    },
+    {
+      "year": 2003,
+      "nino12": -0.2,
+      "nino34": 0.19
+    },
+    {
+      "year": 2004,
+      "nino12": -0.26,
+      "nino34": 0.32
+    },
+    {
+      "year": 2005,
+      "nino12": -0.67,
+      "nino34": 0.02
+    },
+    {
+      "year": 2006,
+      "nino12": 0.34,
+      "nino34": 0.09
+    },
+    {
+      "year": 2007,
+      "nino12": -0.85,
+      "nino34": -0.47
+    },
+    {
+      "year": 2008,
+      "nino12": 0.4,
+      "nino34": -0.69
+    },
+    {
+      "year": 2009,
+      "nino12": 0.34,
+      "nino34": 0.41
+    },
+    {
+      "year": 2010,
+      "nino12": -0.54,
+      "nino34": -0.34
+    },
+    {
+      "year": 2011,
+      "nino12": -0.29,
+      "nino34": -0.74
+    },
+    {
+      "year": 2012,
+      "nino12": 0.16,
+      "nino34": -0.02
+    },
+    {
+      "year": 2013,
+      "nino12": -0.85,
+      "nino34": -0.25
+    },
+    {
+      "year": 2014,
+      "nino12": 0.37,
+      "nino34": 0.12
+    },
+    {
+      "year": 2015,
+      "nino12": 1.45,
+      "nino34": 1.43
+    },
+    {
+      "year": 2016,
+      "nino12": 0.56,
+      "nino34": 0.35
+    },
+    {
+      "year": 2017,
+      "nino12": 0.05,
+      "nino34": -0.11
+    },
+    {
+      "year": 2018,
+      "nino12": -0.21,
+      "nino34": 0.07
+    },
+    {
+      "year": 2019,
+      "nino12": 0.01,
+      "nino34": 0.55
+    },
+    {
+      "year": 2020,
+      "nino12": -0.41,
+      "nino34": -0.3
+    },
+    {
+      "year": 2021,
+      "nino12": -0.46,
+      "nino34": -0.56
+    },
+    {
+      "year": 2022,
+      "nino12": -1.07,
+      "nino34": -0.86
+    },
+    {
+      "year": 2023,
+      "nino12": 2.06,
+      "nino34": 0.84
+    },
+    {
+      "year": 2024,
+      "nino12": -0.04,
+      "nino34": 0.38
+    },
+    {
+      "year": 2025,
+      "nino12": 0.23,
+      "nino34": -0.33
+    },
+    {
+      "year": 2026,
+      "nino12": 1.76,
+      "nino34": 0.65
+    }
+  ],
+  "eventProfiles": {
+    "currentYear": 2026,
+    "current": [
+      {
+        "month": 1,
+        "value": -0.15
+      },
+      {
+        "month": 2,
+        "value": 0.88
+      },
+      {
+        "month": 3,
+        "value": 1.27
+      },
+      {
+        "month": 4,
+        "value": 1.54
+      },
+      {
+        "month": 5,
+        "value": 1.95
+      },
+      {
+        "month": 6,
+        "value": 2.82
+      },
+      {
+        "month": 7,
+        "value": 3.62
+      },
+      {
+        "month": 8,
+        "value": null
+      },
+      {
+        "month": 9,
+        "value": null
+      },
+      {
+        "month": 10,
+        "value": null
+      },
+      {
+        "month": 11,
+        "value": null
+      },
+      {
+        "month": 12,
+        "value": null
+      }
+    ],
+    "nino1998": [
+      {
+        "month": 1,
+        "value": 2.88
+      },
+      {
+        "month": 2,
+        "value": 2.02
+      },
+      {
+        "month": 3,
+        "value": 2.08
+      },
+      {
+        "month": 4,
+        "value": 2.44
+      },
+      {
+        "month": 5,
+        "value": 3.1
+      },
+      {
+        "month": 6,
+        "value": 2
+      },
+      {
+        "month": 7,
+        "value": 1.54
+      },
+      {
+        "month": 8,
+        "value": 0.95
+      },
+      {
+        "month": 9,
+        "value": 0.52
+      },
+      {
+        "month": 10,
+        "value": 0.75
+      },
+      {
+        "month": 11,
+        "value": -0.28
+      },
+      {
+        "month": 12,
+        "value": 0.14
+      }
+    ],
+    "nino2017": [
+      {
+        "month": 1,
+        "value": 1
+      },
+      {
+        "month": 2,
+        "value": 1.13
+      },
+      {
+        "month": 3,
+        "value": 1.92
+      },
+      {
+        "month": 4,
+        "value": 0.7
+      },
+      {
+        "month": 5,
+        "value": 0.34
+      },
+      {
+        "month": 6,
+        "value": -0.03
+      },
+      {
+        "month": 7,
+        "value": -0.3
+      },
+      {
+        "month": 8,
+        "value": -0.26
+      },
+      {
+        "month": 9,
+        "value": -0.7
+      },
+      {
+        "month": 10,
+        "value": -1.02
+      },
+      {
+        "month": 11,
+        "value": -1.08
+      },
+      {
+        "month": 12,
+        "value": -1.22
+      }
+    ]
+  },
+  "enfen": {
+    "title": "COMUNICADO OFICIAL ENFEN N° 13 – 2026 Estado de sistema de alerta: Alerta de El Niño Costero",
+    "state": "Alerta de El Niño Costero",
+    "date": "18 jul 2026",
+    "url": "https://enfen.imarpe.gob.pe/2026/07/17/comunicado-oficial-enfen-n-13-2026-estado-de-sistema-de-alerta-alerta-de-el-nino-costero/"
+  },
+  "modules": {
+    "hydrology": {
+      "status": "available",
+      "title": "Ríos de Lima",
+      "period": "jul–nov 2026",
+      "publishedAt": "jul 2026",
+      "freshUntil": "2026-11-30T23:59:59-05:00",
+      "summary": "El pronóstico estacional clasifica como normal el caudal mensual de Chillón, Rímac y Lurín entre julio y noviembre.",
+      "rivers": [
+        {
+          "name": "Río Chillón",
+          "station": "Obrajillo",
+          "outlook": [
+            "Normal",
+            "Normal",
+            "Normal",
+            "Normal",
+            "Normal"
+          ]
+        },
+        {
+          "name": "Río Rímac",
+          "station": "Chosica",
+          "outlook": [
+            "Normal",
+            "Normal",
+            "Normal",
+            "Normal",
+            "Normal"
+          ]
+        },
+        {
+          "name": "Río Lurín",
+          "station": "Antapucro",
+          "outlook": [
+            "Normal",
+            "Normal",
+            "Normal",
+            "Normal",
+            "Normal"
+          ]
+        }
+      ],
+      "months": [
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "note": "Normal es una categoría mensual de caudal; no descarta crecidas puntuales ni reemplaza un aviso hidrológico.",
+      "source": "SENAMHI · Pronóstico hidrológico estacional",
+      "sourceUrl": "https://www.senamhi.gob.pe/load/file/02694SENA-71.pdf",
+      "alertsUrl": "https://www.senamhi.gob.pe/?p=avisos-detalle-hidrologicos"
+    },
+    "dengue": {
+      "status": "available",
+      "cutoff": "25 jul 2026",
+      "epidemiologicalWeek": 29,
+      "updatedAt": "31 jul 2026",
+      "freshUntil": "2026-08-16T23:59:59-05:00",
+      "peru": {
+        "cases": 39925,
+        "previousCases": 29636,
+        "deaths": 44,
+        "previousDeaths": 48
+      },
+      "lima": {
+        "cases": 4347,
+        "previousCases": 1646,
+        "changePct": 164,
+        "latestWeekCases": 182,
+        "incidence": 12.55,
+        "deaths": 1,
+        "confirmed": 3865,
+        "probable": 482,
+        "diris": [
+          {
+            "name": "Lima Norte",
+            "value": 1638
+          },
+          {
+            "name": "Lima Centro",
+            "value": 1179
+          },
+          {
+            "name": "Lima Sur",
+            "value": 924
+          },
+          {
+            "name": "Lima Este",
+            "value": 439
+          },
+          {
+            "name": "Lima Provincias",
+            "value": 167
+          }
+        ],
+        "history": [
+          {
+            "year": 2021,
+            "cases": 1179
+          },
+          {
+            "year": 2022,
+            "cases": 927
+          },
+          {
+            "year": 2023,
+            "cases": 28485
+          },
+          {
+            "year": 2024,
+            "cases": 87604
+          },
+          {
+            "year": 2025,
+            "cases": 1646
+          },
+          {
+            "year": 2026,
+            "cases": 4347
+          }
+        ]
+      },
+      "note": "Comparación al mismo corte epidemiológico. Temperatura y lluvia pueden favorecer transmisión, pero no prueban causalidad por sí solas.",
+      "source": "CDC Perú · Sala Situacional de Dengue",
+      "sourceUrl": "https://app7.dge.gob.pe/maps/sala_metaxenica/",
+      "climateUrl": "https://app7.dge.gob.pe/maps2/shiny_observatorio_web/"
+    },
+    "fishing": {
+      "status": "available",
+      "officialCutoff": "10 jun 2026",
+      "publishedAt": "12 jun 2026",
+      "freshUntil": "2026-09-15T23:59:59-05:00",
+      "northCentral": {
+        "landingTonnes": 469275,
+        "quotaTonnes": 1914049,
+        "quotaPct": 24.61
+      },
+      "south": {
+        "landingTonnes": 156412,
+        "quotaTonnes": 251000,
+        "quotaPct": 62.3
+      },
+      "scotiabank": {
+        "approximateLandingTonnes": 500000,
+        "usualSeasonTonnes": 2000000,
+        "reportDate": "jul 2026"
+      },
+      "note": "IMARPE reportó cardúmenes adultos y juveniles cerca de la costa y cierres para proteger juveniles.",
+      "source": "ENFEN / IMARPE · Informe técnico N.° 12",
+      "sourceUrl": "https://enfen.imarpe.gob.pe/download/informe-tecnico-enfen-ano-12-n12-al-12-de-junio-de-2026/",
+      "liveUrl": "https://reportes.imarpe.gob.pe/archivos/reportes/Reporte_Anchoveta_I_2026.html"
+    },
+    "agro": {
+      "status": "available",
+      "publishedAt": "jul 2026",
+      "freshUntil": "2026-09-30T23:59:59-05:00",
+      "productionForecast2026": 0.9,
+      "production2025": 4.8,
+      "series": [
+        {
+          "year": 2013,
+          "value": 2.7
+        },
+        {
+          "year": 2014,
+          "value": 1.6
+        },
+        {
+          "year": 2015,
+          "value": 3.5
+        },
+        {
+          "year": 2016,
+          "value": 2.7
+        },
+        {
+          "year": 2017,
+          "value": 2.9
+        },
+        {
+          "year": 2018,
+          "value": 7.7
+        },
+        {
+          "year": 2019,
+          "value": 3.5
+        },
+        {
+          "year": 2020,
+          "value": 1
+        },
+        {
+          "year": 2021,
+          "value": 4.6
+        },
+        {
+          "year": 2022,
+          "value": 4.6
+        },
+        {
+          "year": 2023,
+          "value": -2
+        },
+        {
+          "year": 2024,
+          "value": 5.4
+        },
+        {
+          "year": 2025,
+          "value": 4.8
+        },
+        {
+          "year": 2026,
+          "value": 0.9
+        }
+      ],
+      "crops": [
+        "Papa",
+        "Maíz",
+        "Arroz",
+        "Café",
+        "Cacao"
+      ],
+      "note": "La lluvia, temperatura mínima y déficit hídrico cambian por cultivo y territorio; no se publica un único riesgo nacional de plagas.",
+      "source": "Scotiabank Perú · Estudios Económicos, jul 2026",
+      "sourceUrl": "https://web2.senamhi.gob.pe/?p=boletines"
+    }
+  },
+  "scotiabank": {
+    "reportDate": "jul 2026",
+    "source": "Estudios Económicos Scotiabank Perú",
+    "globalVeryStrongProbability": 81,
+    "coastalSummerProbabilities": [
+      {
+        "label": "Débil",
+        "value": 6
+      },
+      {
+        "label": "Moderado",
+        "value": 23
+      },
+      {
+        "label": "Fuerte",
+        "value": 38
+      },
+      {
+        "label": "Extraordinario",
+        "value": 33
+      }
+    ],
+    "historicalLosses": [
+      {
+        "period": "1982–83",
+        "gdpPct": 7,
+        "usdMillions": 3283
+      },
+      {
+        "period": "1997–98",
+        "gdpPct": 4.5,
+        "usdMillions": 3500
+      },
+      {
+        "period": "2016–17",
+        "gdpPct": 2.3,
+        "usdMillions": 5000
+      }
+    ],
+    "gdpImpactPoints": [
+      {
+        "year": 1983,
+        "value": -4.1
+      },
+      {
+        "year": 1998,
+        "value": -1.7
+      },
+      {
+        "year": 2017,
+        "value": -0.8
+      },
+      {
+        "year": 2023,
+        "value": -1.1
+      }
+    ],
+    "sectorRevision2026": [
+      {
+        "label": "Pesca y manufactura primaria",
+        "value": -0.3
+      },
+      {
+        "label": "Agro",
+        "value": -0.2
+      },
+      {
+        "label": "Minería",
+        "value": -0.1
+      },
+      {
+        "label": "Hidrocarburos",
+        "value": -0.1
+      },
+      {
+        "label": "Comercio",
+        "value": 0.2
+      },
+      {
+        "label": "Servicios",
+        "value": 0.4
+      },
+      {
+        "label": "Construcción",
+        "value": 0.4
+      }
+    ],
+    "peruGdpForecast": {
+      "previous": 3.2,
+      "revised": 3.5
+    },
+    "regional": {
+      "chile": {
+        "title": "Chile: riesgo hidrológico y logístico",
+        "detail": "El impacto depende de lluvias centro-sur: agricultura, carreteras, puertos y energía pueden moverse en direcciones distintas.",
+        "evidence": "La tormenta de junio de 2023 dejó daños estimados en US$750 millones."
+      },
+      "mexico": {
+        "title": "México: dos riesgos opuestos",
+        "detail": "Sur y sureste: lluvia e inundación. Norte y noreste: sequía, reservorios bajos y presión sobre agro y ganadería.",
+        "evidence": "El Pacífico mexicano proyectó 18–21 sistemas en la temporada 2026."
+      }
+    }
+  },
+  "departmentHistory": {
+    "2017": {
+      "Tumbes": 0.9,
+      "Piura": -1.7,
+      "Lambayeque": 2.1,
+      "La Libertad": 1.7,
+      "Cajamarca": 1,
+      "Amazonas": 5.9,
+      "San Martin": 6.5,
+      "Loreto": 6.1,
+      "Ancash": 5.2,
+      "Huanuco": 8.3,
+      "Pasco": -1.3,
+      "Junin": 4,
+      "Lima": 1.9,
+      "Huancavelica": 4.6,
+      "Ica": 3.5,
+      "Ayacucho": 5,
+      "Cusco": -2.2,
+      "Apurimac": 23.6,
+      "Arequipa": 4.1,
+      "Moquegua": 0.8,
+      "Tacna": 0.5,
+      "Puno": 2.7,
+      "Madre De Dios": -9.2,
+      "Ucayali": 1.8
+    },
+    "2023": {
+      "Tumbes": -4.1,
+      "Piura": 3.3,
+      "Lambayeque": -5.7,
+      "La Libertad": -2.4,
+      "Cajamarca": -0.8,
+      "Amazonas": 2.7,
+      "San Martin": 1.8,
+      "Loreto": 1.4,
+      "Ancash": -3.5,
+      "Huanuco": 6.4,
+      "Pasco": 2.2,
+      "Junin": -3,
+      "Lima": -1.4,
+      "Huancavelica": 1.7,
+      "Ica": 0.4,
+      "Ayacucho": -2.2,
+      "Cusco": 3.7,
+      "Apurimac": 6.4,
+      "Arequipa": -1,
+      "Moquegua": 27,
+      "Tacna": -0.1,
+      "Puno": -7.4,
+      "Madre De Dios": 0.1,
+      "Ucayali": 0.2
+    }
+  },
+  "freshness": [
+    {
+      "name": "NOAA CPC",
+      "state": "updated",
+      "cadence": "Semanal",
+      "date": "29 jul 2026",
+      "url": "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
+    },
+    {
+      "name": "ENFEN",
+      "state": "updated",
+      "cadence": "Según comunicado",
+      "date": "18 jul 2026",
+      "url": "https://enfen.imarpe.gob.pe/2026/07/17/comunicado-oficial-enfen-n-13-2026-estado-de-sistema-de-alerta-alerta-de-el-nino-costero/"
+    },
+    {
+      "name": "SENAMHI ríos",
+      "state": "updated",
+      "cadence": "Mensual / avisos",
+      "date": "jul 2026",
+      "url": "https://www.senamhi.gob.pe/load/file/02694SENA-71.pdf"
+    },
+    {
+      "name": "CDC Dengue",
+      "state": "updated",
+      "cadence": "Semanal",
+      "date": "31 jul 2026",
+      "url": "https://app7.dge.gob.pe/maps/sala_metaxenica/"
+    },
+    {
+      "name": "IMARPE anchoveta",
+      "state": "updated",
+      "cadence": "Según monitoreo",
+      "date": "12 jun 2026",
+      "url": "https://reportes.imarpe.gob.pe/archivos/reportes/Reporte_Anchoveta_I_2026.html"
+    },
+    {
+      "name": "Agro",
+      "state": "updated",
+      "cadence": "Mensual",
+      "date": "jul 2026",
+      "url": "https://web2.senamhi.gob.pe/?p=boletines"
+    },
+    {
+      "name": "Scotiabank Perú",
+      "state": "updated",
+      "cadence": "Edición jul 2026",
+      "date": "jul 2026",
+      "url": "#economia"
+    }
+  ]
+}
+{
   "generatedAt": "2026-07-29T20:34:17.359Z",
   "nextRefreshAt": "2026-07-29T22:00:00.000Z",
   "mode": "live",
